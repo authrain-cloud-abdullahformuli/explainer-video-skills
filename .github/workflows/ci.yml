@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Run verification suite
+        run: node test.mjs
+      - name: Validate shell scripts syntax
+        run: |
+          bash -n scripts/contact-sheet.sh
+          bash -n scripts/probe-mp4.sh
+          bash -n scripts/seek-shot.sh
+      - name: Check SKILL.md frontmatter
+        run: |
+          for skill in skills/*/SKILL.md; do
+            head -1 "$skill" | grep -q '^---' || { echo "❌ $skill missing frontmatter"; exit 1; }
+            echo "✅ $skill has frontmatter"
+          done

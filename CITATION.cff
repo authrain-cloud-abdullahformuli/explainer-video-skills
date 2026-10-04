@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "Formuli"
+    given-names: "Abdullah"
+title: "Explainer Video Skills"
+version: "0.1.0"
+date-released: "2026-10-04"
+url: "https://github.com/authrain-cloud-abdullahformuli/explainer-video-skills"
+license: MIT
